@@ -12,6 +12,8 @@ If a request departs from this workflow, point it out and suggest a TDD-aligned 
 
 Define strongly typed Rust errors with `thiserror`.
 
+Use Vite+ (`vp`) as the web toolchain and command entry point. pnpm remains the package manager behind Vite+.
+
 Manage version control exclusively with Jujutsu; never use Git commands that write to the repository. Before starting a change, create an empty `jj` revision described with its intent, then create an undescribed child revision. As work is completed, squash it into the described revision. The agent is responsible for this workflow and for maintaining clean revision history.
 
 Treat each described revision as a feature branch. For unrelated concurrent work, create sibling described revisions from the same parent, develop each through its own undescribed child, then rebase the revisions into a linear history before completion.

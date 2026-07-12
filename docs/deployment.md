@@ -2,7 +2,7 @@
 
 SpiderSense is served at `https://spidersense.app` by the `spidersense` Cloudflare Worker. Cloudflare manages the custom-domain DNS record and TLS certificate. The Worker also remains available at `https://spidersense.vlmutolo.workers.dev`.
 
-GitHub Actions validates pull requests and `main` with read-only repository permissions. Validation runs source checks, the end-to-end suite, and a production build without deployment credentials.
+GitHub Actions uses the pinned Vite+ setup action to install the declared Node.js, pnpm, and Vite+ versions. It validates pull requests and `main` with read-only repository permissions. Validation runs source checks, contract tests, the end-to-end suite, and a production build without deployment credentials.
 
 A successful `main` validation automatically starts the `production` deployment job. The job builds the same revision and exposes Cloudflare credentials only to the final Wrangler command. The `production` GitHub environment holds:
 
