@@ -23,7 +23,7 @@ pnpm build
 
 The E2E command accepts an empty suite while the scaffold has no product behavior. Every future deployment remains gated on this command.
 
-Architecture and deployment details live in [`docs/architecture.md`](docs/architecture.md) and [`docs/deployment.md`](docs/deployment.md).
+Project documentation covers the [`architecture`](docs/architecture.md), [`product roadmap`](docs/roadmap.md), and [`deployment`](docs/deployment.md).
 
 ## License
 
