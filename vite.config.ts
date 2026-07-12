@@ -2,7 +2,119 @@ import adapter from '@sveltejs/adapter-cloudflare';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig, lazyPlugins } from 'vite-plus';
 
+const wasmInput = [
+	'Cargo.toml',
+	'Cargo.lock',
+	'rust-toolchain.toml',
+	'crates/**/Cargo.toml',
+	'crates/**/*.rs'
+];
+const wasmOutput = ['src/lib/wasm/**'];
+
 export default defineConfig({
+	run: {
+		tasks: {
+			audit: {
+				command: 'vp pm audit -- --audit-level high',
+				cache: false
+			},
+			build: {
+				command: 'vp build',
+				dependsOn: ['build:wasm', 'gen:check'],
+				input: [
+					'.node-version',
+					'package.json',
+					'pnpm-lock.yaml',
+					'pnpm-workspace.yaml',
+					'src/**',
+					'static/**',
+					'tsconfig.json',
+					'vite.config.ts',
+					'worker-configuration.d.ts',
+					'wrangler.jsonc'
+				],
+				output: ['.svelte-kit/**']
+			},
+			'build:wasm': {
+				command:
+					'wasm-pack build crates/spidersense-wasm --target web --out-dir ../../src/lib/wasm --out-name spidersense_wasm --release',
+				input: wasmInput,
+				output: wasmOutput
+			},
+			'build:wasm:dev': {
+				command:
+					'wasm-pack build crates/spidersense-wasm --target web --out-dir ../../src/lib/wasm --out-name spidersense_wasm --dev',
+				input: wasmInput,
+				output: wasmOutput
+			},
+			check: {
+				command: [
+					'vp check',
+					'cargo fmt --check',
+					'cargo clippy --workspace --all-targets -- -D warnings',
+					'vp exec svelte-check --tsconfig ./tsconfig.json'
+				],
+				dependsOn: ['check:prepare'],
+				output: []
+			},
+			'check:prepare': {
+				command: 'vp exec svelte-kit sync',
+				dependsOn: ['build:wasm:dev', 'gen:check'],
+				output: ['.svelte-kit/**']
+			},
+			'check:watch': {
+				command: 'vp exec svelte-check --tsconfig ./tsconfig.json --watch',
+				dependsOn: ['check:prepare'],
+				cache: false
+			},
+			clean: {
+				command:
+					"node -e \"require('node:fs').rmSync('.svelte-kit', { recursive: true, force: true })\"",
+				cache: false
+			},
+			deploy: {
+				command: 'vp exec wrangler deploy',
+				cache: false
+			},
+			dev: {
+				command: 'vp dev',
+				dependsOn: ['build:wasm:dev'],
+				cache: false
+			},
+			'dev:e2e': {
+				command: 'vp dev --host 127.0.0.1 --port 4173',
+				dependsOn: ['build:wasm:dev'],
+				cache: false
+			},
+			format: {
+				command: ['vp fmt .', 'cargo fmt'],
+				cache: false
+			},
+			gen: {
+				command: 'vp exec wrangler types',
+				cache: false
+			},
+			'gen:check': {
+				command: 'vp exec wrangler types --check',
+				dependsOn: ['clean'],
+				output: []
+			},
+			preview: {
+				command: 'vp exec wrangler dev .svelte-kit/cloudflare/_worker.js --port 4173',
+				dependsOn: ['build'],
+				cache: false
+			},
+			'test:contracts': {
+				command: 'vp test --passWithNoTests',
+				dependsOn: ['check:prepare'],
+				output: []
+			},
+			'test:e2e': {
+				command: 'vp exec playwright test --pass-with-no-tests',
+				cache: false
+			}
+		}
+	},
 	lint: {
 		plugins: ['oxc', 'typescript', 'unicorn'],
 		jsPlugins: [

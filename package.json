@@ -9,25 +9,7 @@
 		"node": "24.x"
 	},
 	"scripts": {
-		"clean": "node -e \"require('node:fs').rmSync('.svelte-kit', { recursive: true, force: true })\"",
-		"dev": "vp run clean && vp run build:wasm:dev && vp dev",
-		"dev:e2e": "vp run clean && vp run build:wasm:dev && vp dev --host 127.0.0.1 --port 4173",
-		"build": "vp run clean && vp run build:wasm && vp exec wrangler types --check && vp build",
-		"build:wasm": "wasm-pack build crates/spidersense-wasm --target web --out-dir ../../src/lib/wasm --out-name spidersense_wasm --release",
-		"build:wasm:dev": "wasm-pack build crates/spidersense-wasm --target web --out-dir ../../src/lib/wasm --out-name spidersense_wasm --dev",
-		"preview": "vp exec wrangler dev .svelte-kit/cloudflare/_worker.js --port 4173",
-		"prepare": "svelte-kit sync || echo ''",
-		"check": "vp run check:prepare && vp check && vp run check:rust && vp run check:svelte",
-		"check:prepare": "vp run clean && vp run build:wasm:dev && vp exec wrangler types --check && vp exec svelte-kit sync",
-		"check:rust": "cargo fmt --check && cargo clippy --workspace --all-targets -- -D warnings",
-		"check:svelte": "vp exec svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "vp exec svelte-kit sync && vp exec svelte-check --tsconfig ./tsconfig.json --watch",
-		"audit": "vp pm audit -- --audit-level high",
-		"format": "vp fmt . && cargo fmt",
-		"test:contracts": "vp test --passWithNoTests",
-		"test:e2e": "vp exec playwright test --pass-with-no-tests",
-		"gen": "vp exec wrangler types",
-		"deploy": "vp exec wrangler deploy"
+		"prepare": "svelte-kit sync || echo ''"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.61.1",

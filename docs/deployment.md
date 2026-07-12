@@ -12,3 +12,5 @@ A successful `main` validation automatically starts the `production` deployment 
 The Cloudflare token grants Workers Scripts write access for the single deployment account. Custom-domain routing is managed in the Cloudflare dashboard. Additional permissions accompany features that require them, such as storage permissions for bound data services.
 
 The repository workflow uses the `pull_request` event, immutable action revisions, read-only `GITHUB_TOKEN` permissions, ephemeral GitHub-hosted runners, and a credential-scoped deployment environment. Dependabot proposes updates for JavaScript, Rust, and GitHub Actions dependencies.
+
+The Vite Task deployment entry is non-cacheable and has no task dependencies. Validation and production builds run before the credential-bearing deployment step.
