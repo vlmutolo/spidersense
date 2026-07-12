@@ -1,0 +1,9 @@
+[package]
+name = "spidersense-core"
+description = "Platform-independent ZX calculus engine for SpiderSense"
+edition.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+[lib]
+path = "src/lib.rs"

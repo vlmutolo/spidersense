@@ -1,0 +1,14 @@
+[package]
+name = "spidersense-wasm"
+description = "WebAssembly adapter for the SpiderSense ZX calculus engine"
+edition.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+path = "src/lib.rs"
+
+[dependencies]
+spidersense-core = { path = "../spidersense-core" }
+wasm-bindgen.workspace = true
