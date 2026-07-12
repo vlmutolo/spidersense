@@ -2,6 +2,7 @@
 name = "spidersense-core"
 description = "Platform-independent ZX calculus engine for SpiderSense"
 edition.workspace = true
+license.workspace = true
 rust-version.workspace = true
 version.workspace = true
 

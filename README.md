@@ -24,3 +24,7 @@ pnpm build
 The E2E command accepts an empty suite while the scaffold has no product behavior. Every future deployment remains gated on this command.
 
 Architecture and deployment details live in [`docs/architecture.md`](docs/architecture.md) and [`docs/deployment.md`](docs/deployment.md).
+
+## License
+
+SpiderSense is available under either the [MIT License](LICENSE-MIT) or the [Apache License 2.0](LICENSE-APACHE), at your option.

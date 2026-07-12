@@ -2,6 +2,7 @@
 name = "spidersense-wasm"
 description = "WebAssembly adapter for the SpiderSense ZX calculus engine"
 edition.workspace = true
+license.workspace = true
 rust-version.workspace = true
 version.workspace = true
 
