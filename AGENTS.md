@@ -10,6 +10,10 @@ SpiderSense uses test-driven agent development. Work follows this sequence:
 
 If a request departs from this workflow, point it out and suggest a TDD-aligned approach, while ultimately following the user's direction.
 
+Use `proptest` in Rust integration-test targets and `fast-check` with Vitest or Playwright for TypeScript and browser contracts. Model stateful behavior with generated commands and a small, declarative test-side reference model that is independent of the production implementation. Every browser trial and shrink attempt starts from a clean page, drives the real application and real Wasm implementation, and has no behavioral fallback that could mask integration failures.
+
+Represent every agreed behavior at the narrowest important public interface and again through the rendered application when it is user-facing. Property failures must report enough seed and shrink information to reproduce them. Preserve discovered regressions through the property library's reproducibility mechanism rather than handwritten example cases; use larger stress runs when useful without changing the properties exercised in normal CI.
+
 Define strongly typed Rust errors with `thiserror`.
 
 Use Vite+ (`vp`) as the web toolchain and command entry point. Define project workflows as Vite Task entries in `vite.config.ts`; pnpm remains the package manager behind Vite+.
